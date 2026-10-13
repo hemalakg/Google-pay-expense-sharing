@@ -4,7 +4,7 @@ class ExpenseSharing:
         print(f"Initialized balances for: {', '.join(friends)}")
 
     def add_expense(self, payer, amount, participants):
-        # Basic validation for payer and participants
+        
         if payer not in self.balances:
             print(f"Error: Payer '{payer}' is not in the list of friends.")
             return
@@ -21,15 +21,13 @@ class ExpenseSharing:
 
     def calculate_settlement(self):
         print("\n--- Calculating Settlements ---")
-        # Separate friends into those who are owed (positive balance) and those who owe (negative balance)
-        # Filter out people with zero balance
+        
         owed = {name: balance for name, balance in self.balances.items() if balance > 0}
         owing = {name: abs(balance) for name, balance in self.balances.items() if balance < 0}
 
         settlements = []
 
-        # Convert dictionaries to lists of (name, amount) tuples for easier manipulation
-        # Sort them to process larger debts/credits first for potentially fewer transactions
+        
         owed_list = sorted(list(owed.items()), key=lambda item: item[1], reverse=True)
         owing_list = sorted(list(owing.items()), key=lambda item: item[1], reverse=True)
 
@@ -42,11 +40,11 @@ class ExpenseSharing:
 
             settlements.append(f"{payer_name} owes {receiver_name} Rs.{settle_amount:.2f}")
 
-            # Update remaining amounts
+            
             owing_list[j] = (payer_name, payer_amount - settle_amount)
             owed_list[i] = (receiver_name, receiver_amount - settle_amount)
 
-            # Move to the next person if their balance is settled
+            
             if owing_list[j][1] == 0:
                 j += 1
             if owed_list[i][1] == 0:
@@ -62,11 +60,11 @@ class ExpenseSharing:
         for friend, balance in self.balances.items():
             print(f"{friend}: Rs.{balance:.2f}")
 
-# Main execution block
+
 if __name__ == "__main__":
     print("Welcome to the Expense Sharing App!")
 
-    # Get friends' names as input from the user
+    
     friends_input = input("Enter the names of friends separated by commas (e.g., Alice, Bob, Carol): ")
     friends = [friend.strip() for friend in friends_input.split(',') if friend.strip()]
 
@@ -98,7 +96,7 @@ if __name__ == "__main__":
                 print("No participants entered for this expense. Please try again.")
                 continue
             
-            # Ensure all participants are valid friends
+            
             invalid_participants = [p for p in participants if p not in friends]
             if invalid_participants:
                 print(f"Error: The following participants are not in your friends list: {', '.join(invalid_participants)}. Please try again.")
